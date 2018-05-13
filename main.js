@@ -1,5 +1,6 @@
 var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
+var possible = 1;
 var play = [];
 var canvasColour = "#d1f3ff";
 var index = 8;
