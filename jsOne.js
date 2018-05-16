@@ -1,6 +1,17 @@
 var canvas = document.getElementById("one");
 var ctx = canvas.getContext("2d");
 var you = 0;
+out();
+function out(){
+	setTimeout(function(){
+		if(localStorage.getItem("one") != "yes"){
+			window.location.replace(localStorage.getItem("one"));
+			localStorage.setItem("one", "yes");
+		}
+		out();
+	},500);
+}
+
 var canvasColour = "#d1f3ff";
 var players = JSON.parse(localStorage.getItem("players"));
 var hand = localStorage.getItem("hands");
@@ -16,6 +27,20 @@ render();
 
 waitPlay();
 
+waitRound();
+function waitRound(){
+	setTimeout(function(){
+		if(localStorage.getItem("roundii") == "no"){
+			waitRound();
+		}
+		else{
+			hand = localStorage.getItem("hands");
+			hands = JSON.parse(hand);
+			render();
+		}
+	},500);
+}
+
 document.addEventListener('keydown', function(event){
 		if(event.keyCode == 40){
 			selected++;
@@ -30,6 +55,8 @@ document.addEventListener('keydown', function(event){
 			}
 		}
 		if(event.keyCode == 13 && JSON.parse(localStorage.getItem("enter")) == you && selected < hands[you].length){
+			localStorage.setItem("roundii", "no");
+			waitRound();
 			play = JSON.parse(localStorage.getItem("play"));
 			if(JSON.parse(localStorage.getItem("leading")) == null){
 				localStorage.setItem("leading", JSON.stringify(hands[you][selected]));
@@ -37,7 +64,7 @@ document.addEventListener('keydown', function(event){
 				hands[you].splice(selected,1);
 				time = 1;
 				localStorage.setItem("enter", JSON.stringify(JSON.parse(localStorage.getItem("enter"))+1));
-				if(JSON.parse(localStorage.getItem("enter")) == players){
+				if(JSON.parse(localStorage.getItem("enter")) == JSON.parse(localStorage.getItem("players"))){
 					localStorage.setItem("enter", 0);
 				}
 			}
@@ -48,7 +75,7 @@ document.addEventListener('keydown', function(event){
 					hands[you].splice(selected,1);
 					time = 1;
 					localStorage.setItem("enter", JSON.stringify(JSON.parse(localStorage.getItem("enter"))+1));
-					if(JSON.parse(localStorage.getItem("enter")) == players){
+					if(JSON.parse(localStorage.getItem("enter")) == JSON.parse(localStorage.getItem("players"))){
 						localStorage.setItem("enter", 0);
 					}
 				}

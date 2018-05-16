@@ -1,12 +1,15 @@
-var canvas = document.getElementById("three");
+var canvas = document.getElementById("one");
 var ctx = canvas.getContext("2d");
-var you = 2;
+var you = 0;
 out();
 function out(){
 	setTimeout(function(){
-		if(localStorage.getItem("three") != "yes"){
-			window.location.replace(localStorage.getItem("three"));
-			localStorage.setItem("three", "yes");
+		//if(localStorage.getItem("one") == "GameOver"){
+			//window.location.replace("gameOver.html");
+		//}
+		if(localStorage.getItem("one") != "yes"){
+			window.location.replace(localStorage.getItem("one"));
+			localStorage.setItem("one", "yes");
 		}
 		out();
 	},500);
@@ -64,7 +67,7 @@ document.addEventListener('keydown', function(event){
 				hands[you].splice(selected,1);
 				time = 1;
 				localStorage.setItem("enter", JSON.stringify(JSON.parse(localStorage.getItem("enter"))+1));
-				if(JSON.parse(localStorage.getItem("enter")) == JSON.parse(localStorage.getItem("players"))){
+				if(JSON.parse(localStorage.getItem("enter")) == players){
 					localStorage.setItem("enter", 0);
 				}
 			}
@@ -75,7 +78,7 @@ document.addEventListener('keydown', function(event){
 					hands[you].splice(selected,1);
 					time = 1;
 					localStorage.setItem("enter", JSON.stringify(JSON.parse(localStorage.getItem("enter"))+1));
-					if(JSON.parse(localStorage.getItem("enter")) == JSON.parse(localStorage.getItem("players"))){
+					if(JSON.parse(localStorage.getItem("enter")) == players){
 						localStorage.setItem("enter", 0);
 					}
 				}

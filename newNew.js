@@ -11,13 +11,9 @@ var leading = null;
 var enter = 0;
 var renderNow = "no";
 var trumpSuit = "";
-var roundNumber = 0;
+var roundNumber = JSON.parse(localStorage.getItem("roundNumber"));
 var roundii = "no";
-
-var players = 0;
-while(players < 2 || players > 7 || players != parseInt(players, 10))
-players = prompt("Please enter number of players between 2 and 7:");
-var who = 0;
+var players = JSON.parse(localStorage.getItem("players", players));
 
 makeDeck();
 function makeDeck(){
@@ -67,30 +63,16 @@ function randomNum(upper) {
 	return bar;
 }
 
-localStorage.setItem("players", JSON.stringify(players));
-localStorage.setItem("hands", JSON.stringify(hands));
-localStorage.setItem("possible", possible);
-localStorage.setItem("ai", ai);
-localStorage.setItem("play", JSON.stringify(play));
-localStorage.setItem("leading", JSON.stringify(leading));
-localStorage.setItem("enter", JSON.stringify(enter));
-localStorage.setItem("renderNow", renderNow);
-localStorage.setItem("roundii", roundii);
-localStorage.setItem("one", "yes");
-localStorage.setItem("two", "yes");
-localStorage.setItem("three", "yes");
-localStorage.setItem("four", "yes");
-localStorage.setItem("five", "yes");
-localStorage.setItem("six", "yes");
-localStorage.setItem("seven", "yes");
-
 waitWinner();
 function waitWinner(){
+	console.log(players);
+	console.log(JSON.parse(localStorage.getItem("play")).length);
 	setTimeout(function(){
 		if(players != JSON.parse(localStorage.getItem("play")).length){
 			waitWinner();
 		}
 		else{
+			console.log("check6");
 			winner();
 		}
 	},500);
@@ -117,7 +99,9 @@ function waitWinner2(){
 var first = [];
 var trump = [];
 function winner(){
+	console.log("check5");
 	for(var i = 0; i < JSON.parse(localStorage.getItem("play")).length; i++){
+		console.log("check4");
 		if(JSON.parse(localStorage.getItem("play"))[i].suit == localStorage.getItem("trumpSuit")){
 			trump.push(JSON.parse(localStorage.getItem("play"))[i]);
 		}
@@ -126,9 +110,11 @@ function winner(){
 		}
 	}
 	if(trump.length != 0){
+		console.log("check2");
 		check(trump);
 	}
 	else{
+		console.log("check3");
 		check(first);
 	}
 }
@@ -138,7 +124,9 @@ function check(type){
 	setTimeout(function(){
 		highest = 0;
 		index = checkHighest(type);
+		console.log("check1");
 		for(var i = 0; i < JSON.parse(localStorage.getItem("play")).length; i++){
+			console.log("check");
 			if(type[index].suit == JSON.parse(localStorage.getItem("play"))[i].suit && type[index].value == JSON.parse(localStorage.getItem("play"))[i].value){
 				who = i;
 				winners.push(who);
