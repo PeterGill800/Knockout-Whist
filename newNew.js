@@ -7,6 +7,7 @@ var selected = 0;
 var possible = "no";
 var ai = 0;
 var play = [];
+localStorage.setItem("play", JSON.stringify(play));
 var leading = null;
 var enter = 0;
 var renderNow = "no";
