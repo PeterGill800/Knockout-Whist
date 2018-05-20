@@ -12,6 +12,21 @@ function out(){
 	},500);
 }
 
+waitWinnerVar();
+function waitWinnerVar(){
+	setTimeout(function(){
+		if(JSON.parse(localStorage.getItem("winnerVar")) == 8 || JSON.parse(localStorage.getItem("winnerVar")) == null){
+			waitWinnerVar();
+		}
+		else{
+			console.log("yes");
+			rectangle = true;
+			waitWinnerVar();
+		}
+	},500);
+}
+
+var rectangle = false;
 var canvasColour = "#d1f3ff";
 var players = JSON.parse(localStorage.getItem("players"));
 var hand = localStorage.getItem("hands");
@@ -26,6 +41,21 @@ aiii = 0;
 render();
 
 waitPlay();
+
+/*waitWinnerVar();
+function waitWinnerVar(){
+	setTimeout(function(){
+		if(JSON.parse(localStorage.getItem("winnerVar")) == 8){
+		waitWinnerVar();	
+		}
+		else{
+		ctx.fillStyle="blue";
+		ctx.fillRect(280, 40+(20*JSON.parse(localStorage.getItem("winnerVar"))),10,10);
+		localStorage.setItem("winnerVar", JSON.stringify(8));
+		waitWinnerVar();
+		}
+	},500);
+}*/
 
 waitRound();
 function waitRound(){
@@ -80,17 +110,12 @@ document.addEventListener('keydown', function(event){
 					}
 				}
 			}
-			//pL = play.length;
 			localStorage.setItem("play", JSON.stringify(play));
 		}
 		if(event.keyCode != null && aiii == 1){
 			aiii = 0;
 			aii();
 		}
-		/*if(event.keyCode != null && roundi == 1){
-			roundi = 0;
-			round();
-		}*/
 		render();
 	}
 );
@@ -118,12 +143,8 @@ function choosePlayerCard(){
 
 function waitPlay(){
 	setTimeout(function(){
-		//if(pL != JSON.parse(localStorage.getItem("play")).length){
-			render();
-		//}
-		//if(pL < players){
-			waitPlay();
-		//}
+		render();
+		waitPlay();
 	},500);
 }
 
@@ -155,16 +176,19 @@ function render(){
 				ctx.fillText(""+JSON.parse(localStorage.getItem("play"))[i].value+" of "+JSON.parse(localStorage.getItem("play"))[i].suit, 300, 50+(20*i));
 			}
 		}
-		//if(noTrump == 0){
-			if(localStorage.getItem("trumpSuit") == "Hearts" || localStorage.getItem("trumpSuit") == "Diamonds"){
-				ctx.fillStyle = "red";
-			}
-			else{
-				ctx.fillStyle = "black";
-			}
-			ctx.font = "18px Arial";
-			ctx.fillText("Trump suit:", 30, 550);
-			ctx.fillText(""+localStorage.getItem("trumpSuit"), 30, 570);
-		//}
+		if(localStorage.getItem("trumpSuit") == "Hearts" || localStorage.getItem("trumpSuit") == "Diamonds"){
+			ctx.fillStyle = "red";
+		}
+		else{
+			ctx.fillStyle = "black";
+		}
+		ctx.font = "18px Arial";
+		ctx.fillText("Trump suit:", 30, 550);
+		ctx.fillText(""+localStorage.getItem("trumpSuit"), 30, 570);
+		if(rectangle == true){
+			ctx.fillStyle="blue";
+			ctx.fillRect(280,40+(20*JSON.parse(localStorage.getItem("winnerVar"))),10,10);
+			rectangle = false;
+		}
 	}
 }

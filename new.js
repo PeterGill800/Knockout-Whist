@@ -13,7 +13,9 @@ var renderNow = "no";
 var trumpSuit = "";
 var roundNumber = 0;
 var roundii = "no";
-
+localStorage.setItem("winnerVar", JSON.stringify(8));
+localStorage.setItem("ready", "no");
+localStorage.setItem("who", JSON.stringify(8));
 var players = 0;
 while(players < 2 || players > 7 || players != parseInt(players, 10))
 players = prompt("Please enter number of players between 2 and 7:");
@@ -43,6 +45,7 @@ function makeDeck(){
 		}
 	}
 	localStorage.setItem("trumpSuit", shuffleDeck[0].suit);
+	localStorage.setItem("ready", "yes");
 	console.log(localStorage.getItem("trumpSuit"));
 	console.log(hands);
 	localStorage.setItem("hands", JSON.stringify(hands));
@@ -142,30 +145,36 @@ function check(type){
 			if(type[index].suit == JSON.parse(localStorage.getItem("play"))[i].suit && type[index].value == JSON.parse(localStorage.getItem("play"))[i].value){
 				who = i;
 				winners.push(who);
-				localStorage.setItem("play", JSON.stringify([]));
-				trump = [];
-				first = [];
-				highest = 0;
-				localStorage.setItem("leading", JSON.stringify(null));
-				for(var x = 0; x < players ; x++){
-					play = JSON.parse(localStorage.getItem("play"));
-					play.push([]);
-					localStorage.setItem("play", JSON.stringify(play));
-				}
-				localStorage.setItem("enter", who);
-				time = who;
-				ctx.fillStyle="blue";
-				ctx.fillRect(280, 40+(20*i),10,10);
-				ctx.font = "18px Arial";
-				ctx.fillText("Press any key to continue", 250, 250);
-				console.log(winners);
-				waitWinner2();
-				if(winners.length == 7 - roundNumber){
-					round();
-				}
-				//else{
-					//aiii = 1;
-				//}
+				localStorage.setItem("winnerVar", JSON.stringify(who));
+				console.log("yes");
+				localStorage.setItem("enter", JSON.stringify(8));
+				setTimeout(function(){
+					localStorage.setItem("play", JSON.stringify([]));
+					localStorage.setItem("winnerVar", JSON.stringify(8));
+					trump = [];
+					first = [];
+					highest = 0;
+					localStorage.setItem("leading", JSON.stringify(null));
+					for(var x = 0; x < players ; x++){
+						play = JSON.parse(localStorage.getItem("play"));
+						play.push([]);
+						localStorage.setItem("play", JSON.stringify(play));
+					}
+					time = who;
+					//ctx.fillStyle="blue";
+					//ctx.fillRect(280, 40+(20*i),10,10);
+					//ctx.font = "18px Arial";
+					//ctx.fillText("Press any key to continue", 250, 250);
+					console.log(winners);
+					waitWinner2();
+					if(winners.length == 7 - roundNumber){
+						round();
+					}
+				},1000);
+				console.log("enter"+localStorage.getItem("enter"));
+				setTimeout(function(){
+					localStorage.setItem("enter", JSON.stringify(who));
+				},2000);
 			}
 		}
 	},500);
@@ -288,44 +297,15 @@ function round(){
 
 	if(redirect [6][0] == 6){localStorage.setItem("seven", "newOne.html");}
 	
-	console.log(localStorage.getItem("one"));
-	console.log(localStorage.getItem("two"));
-	console.log(localStorage.getItem("three"));
-	console.log(localStorage.getItem("four"));
-	console.log(localStorage.getItem("five"));
-	console.log(localStorage.getItem("six"));
-	console.log(localStorage.getItem("seven"));
-	
-	/*if(possibleCard.length == 0){
-		possible = 1;
-		ctx.fillStyle = "black";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		ctx.fillStyle = "white";
-		ctx.font = "72px Arial";
-		ctx.fillText("Game Over", 100, 300);
-	}*/
-	//else{
-		/*if(players == 1){
-			possible = 1;
-			ctx.fillStyle = "black";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = "white";
-			ctx.font = "72px Arial";
-			ctx.fillText("You Win!", 100, 300);
-		}*/
 		roundNumber++;
 		play = [];
 		winners = [];
 		who = rW[0];
+		localStorage.setItem("who", JSON.stringify(who));
 		time = rW[0];
 		localStorage.setItem("enter", who);
 		roundWinner = [[],[],[],[],[],[],[]];
 		rW = [];
 		noTrump = 1;
-		//for(var x = 0; x < who ; x++){
-			//play.push([]);
-		//}
 		makeDeck();
-		//aii();
-	//}
 }
