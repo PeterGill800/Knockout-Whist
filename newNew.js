@@ -14,7 +14,7 @@ var renderNow = "no";
 var trumpSuit = "";
 var roundNumber = JSON.parse(localStorage.getItem("roundNumber"));
 var roundii = "no";
-var players = JSON.parse(localStorage.getItem("players");
+var players = JSON.parse(localStorage.getItem("players"));
 
 makeDeck();
 function makeDeck(){

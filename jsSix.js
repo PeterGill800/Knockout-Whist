@@ -4,9 +4,21 @@ var you = 5;
 out();
 function out(){
 	setTimeout(function(){
+		if(localStorage.getItem("six") == "gameOver.html"){
+			localStorage.setItem("games", JSON.stringify(JSON.parse(localStorage.getItem("games")) - 1));
+		}
 		if(localStorage.getItem("six") != "yes"){
 			window.location.replace(localStorage.getItem("six"));
 			localStorage.setItem("six", "yes");
+		}
+		console.log(JSON.parse(localStorage.getItem("games")));
+		if(JSON.parse(localStorage.getItem("games")) == 1){
+			localStorage.setItem("possible", "yes");
+			ctx.fillStyle = "black";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "white";
+			ctx.font = "72px Arial";
+			ctx.fillText("You Win!", 100, 300);
 		}
 		out();
 	},500);
@@ -24,6 +36,24 @@ function waitWinnerVar(){
 			waitWinnerVar();
 		}
 	},500);
+}
+
+chooseTrump();
+function chooseTrump(){
+	setTimeout(function(){
+		if(JSON.parse(localStorage.getItem("who")) == you && localStorage.getItem("ready") == "yes" && localStorage.getItem("possible") == "no"){
+			console.log("c");
+			//setTimeout(function(){
+				render();
+				localStorage.setItem("trumpSuit", "");
+				while(localStorage.getItem("trumpSuit") != "Clubs" && localStorage.getItem("trumpSuit") != "Diamonds" && localStorage.getItem("trumpSuit") != "Hearts" && localStorage.getItem("trumpSuit") != "Spades")
+				localStorage.setItem("trumpSuit", prompt("Please choose trump suit:"));
+				render();
+				localStorage.setItem("ready", "no");
+			//},500);
+		}
+		chooseTrump();
+	},1000);
 }
 
 var rectangle = false;

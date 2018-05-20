@@ -4,9 +4,21 @@ var you = 0;
 out();
 function out(){
 	setTimeout(function(){
+		if(localStorage.getItem("one") == "gameOver.html"){
+			localStorage.setItem("games", JSON.stringify(JSON.parse(localStorage.getItem("games")) - 1));
+		}
 		if(localStorage.getItem("one") != "yes"){
 			window.location.replace(localStorage.getItem("one"));
 			localStorage.setItem("one", "yes");
+		}
+		console.log(JSON.parse(localStorage.getItem("games")));
+		if(JSON.parse(localStorage.getItem("games")) == 1){
+			localStorage.setItem("possible", "yes");
+			ctx.fillStyle = "black";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "white";
+			ctx.font = "72px Arial";
+			ctx.fillText("You Win!", 100, 300);
 		}
 		out();
 	},500);
@@ -15,9 +27,7 @@ function out(){
 chooseTrump();
 function chooseTrump(){
 	setTimeout(function(){
-		console.log(JSON.parse(localStorage.getItem("who")));
-		console.log(localStorage.getItem("ready"));
-		if(JSON.parse(localStorage.getItem("who")) == you && localStorage.getItem("ready") == "yes"){
+		if(JSON.parse(localStorage.getItem("who")) == you && localStorage.getItem("ready") == "yes" && localStorage.getItem("possible") == "no"){
 			console.log("c");
 			//setTimeout(function(){
 				render();

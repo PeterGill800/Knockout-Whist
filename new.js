@@ -20,7 +20,7 @@ var players = 0;
 while(players < 2 || players > 7 || players != parseInt(players, 10))
 players = prompt("Please enter number of players between 2 and 7:");
 var who = 0;
-
+localStorage.setItem("games", JSON.stringify(players));
 makeDeck();
 function makeDeck(){
 	hands = [];
